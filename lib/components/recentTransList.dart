@@ -62,7 +62,7 @@ class RecentTransList extends StatelessWidget {
                       padding: EdgeInsets.all(10.0),
                       decoration: BoxDecoration(
                           color: whiteColor,
-                          boxShadow: [BoxShadow(color: blackColor)],
+                          boxShadow: [BoxShadow(color: Colors.transparent)],
                           borderRadius:
                               BorderRadius.all(Radius.circular(10.0))),
                       child: SvgPicture.asset(
