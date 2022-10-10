@@ -88,6 +88,9 @@ class _RegisterClass extends State<RegisterScreen> {
             child: MaterialButton(
               child: const Text("Xác nhận"),
               onPressed: () {
+                if (dateTime == "") {
+                  dateTime = "1969-1-1";
+                }
                 setId('${nameController.text}/$dateTime');
                 Navigator.push(
                     context,
