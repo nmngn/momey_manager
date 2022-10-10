@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:money_manager/model/session.dart';
+import 'package:money_manager/view/home.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -27,6 +29,9 @@ class _RegisterClass extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+    double navigationBarHeight = MediaQuery.of(context).padding.bottom;
+    print(navigationBarHeight);
+    double spacing = (height - navigationBarHeight - 304) / 2;
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -35,13 +40,15 @@ class _RegisterClass extends State<RegisterScreen> {
         ),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
+            height: 56,
             width: width - 32 * 2,
-            margin: const EdgeInsets.only(left: 32, right: 32),
+            margin: EdgeInsets.only(left: 32, right: 32, top: spacing - 16),
             child: TextField(
+              controller: nameController,
               autofocus: true,
               autocorrect: false,
               style: const TextStyle(fontSize: 15.0, color: Colors.black),
@@ -63,23 +70,30 @@ class _RegisterClass extends State<RegisterScreen> {
               initialDateTime: DateTime(1969, 1, 1),
               onDateTimeChanged: (DateTime newDateTime) {
                 setState(() {
-                  dateTime =
-                      DateFormat('yyyy-MM-dd – kk:mm').format(newDateTime);
+                  dateTime = DateFormat('yyyy-MM-dd').format(newDateTime);
                 });
-                // Do something
               },
             ),
           ),
+          SizedBox(
+            height: spacing - 92,
+          ),
           Container(
             width: width - 32 * 2,
+            height: 48,
             margin: const EdgeInsets.only(left: 32, right: 32),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.lightBlue
-            ),
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.lightBlue),
             child: MaterialButton(
               child: const Text("Xác nhận"),
-              onPressed: () {},
+              onPressed: () {
+                setId('${nameController.text}/$dateTime');
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => Home()));
+              },
             ),
           )
         ],

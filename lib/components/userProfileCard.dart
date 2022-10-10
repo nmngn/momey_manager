@@ -1,9 +1,26 @@
 import 'dart:io';
 import 'package:money_manager/constFiles/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:money_manager/model/session.dart';
 
-class UserProfileCard extends StatelessWidget {
+class UserProfileCard extends StatefulWidget {
+  @override
+  _UserProfileCard createState() => _UserProfileCard();
+}
+
+class _UserProfileCard extends State<UserProfileCard> {
   static File? imageFile;
+  String userName = "";
+
+  @override
+  void initState() {
+    super.initState();
+    getId().then((String value) {
+      setState(() {
+        this.userName = value;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +45,12 @@ class UserProfileCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Welcome Back,",
+                  "Welcome",
                   style:
                       TextStyle(color: greyText, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  "Nancy Lee",
+                  this.userName,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),

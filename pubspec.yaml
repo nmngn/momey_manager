@@ -45,6 +45,8 @@ dependencies:
   intl: ^0.17.0
   pie_chart: ^5.0.0
   date_range_picker: ^1.0.7
+  shared_preferences: any
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
