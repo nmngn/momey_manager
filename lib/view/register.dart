@@ -89,7 +89,7 @@ class _RegisterClass extends State<RegisterScreen> {
               child: const Text("Xác nhận"),
               onPressed: () {
                 if (dateTime == "") {
-                  dateTime = "1989-1-1";
+                  dateTime = "1989-01-01";
                 }
                 setId('${nameController.text}/$dateTime');
                 Navigator.push(

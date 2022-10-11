@@ -1,5 +1,6 @@
 class TransactionModel {
   TransactionModel({
+    required this.idUser,
     required this.id,
     required this.title,
     required this.description,
@@ -8,7 +9,7 @@ class TransactionModel {
     required this.category,
     required this.dateTime,
   });
-
+  final String? idUser;
   final String? id;
   final String? title;
   final String? description;
@@ -19,6 +20,7 @@ class TransactionModel {
 
   factory TransactionModel.fromMap(Map<String, dynamic> json) =>
       TransactionModel(
+        idUser: json["idUser"],
         id: json["id"],
         title: json["title"],
         description: json["description"],
@@ -29,6 +31,7 @@ class TransactionModel {
       );
 
   Map<String, dynamic> transactionToMap() => {
+        "idUser": idUser,
         "id": id,
         "title": title,
         "description": description,
