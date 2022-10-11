@@ -1,4 +1,4 @@
-import 'package:money_manager/model/session.dart';
+import 'package:money_manager/network/service/service_locator.dart';
 import 'package:money_manager/view/register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'controller/reportController.dart';
@@ -23,6 +23,7 @@ class _MyApp extends State<MyApp> {
     setState(() {
       result = prefs.getString('idUser') ?? "";
     });
+    await setupLocator();
   }
 
   @override

@@ -88,7 +88,7 @@ class TransactionList extends StatelessWidget {
                   ),
                   trailing: IconButton(
                     onPressed: () {
-                      transactionController.deleteTransaction(data.id ?? 0);
+                      transactionController.deleteTransaction(data.id ?? "");
                       transactionController.fetchTransaction();
                       reportController.fetchTransaction();
                     },

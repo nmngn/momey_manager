@@ -67,7 +67,7 @@ class _RegisterClass extends State<RegisterScreen> {
             height: 200,
             child: CupertinoDatePicker(
               mode: CupertinoDatePickerMode.date,
-              initialDateTime: DateTime(1969, 1, 1),
+              initialDateTime: DateTime(1989, 1, 1),
               onDateTimeChanged: (DateTime newDateTime) {
                 setState(() {
                   dateTime = DateFormat('yyyy-MM-dd').format(newDateTime);
@@ -89,7 +89,7 @@ class _RegisterClass extends State<RegisterScreen> {
               child: const Text("Xác nhận"),
               onPressed: () {
                 if (dateTime == "") {
-                  dateTime = "1969-1-1";
+                  dateTime = "1989-1-1";
                 }
                 setId('${nameController.text}/$dateTime');
                 Navigator.push(

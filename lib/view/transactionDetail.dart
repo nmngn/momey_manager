@@ -5,7 +5,6 @@ import 'package:money_manager/controller/transDetailController.dart';
 import 'package:money_manager/controller/transactionController.dart';
 import 'package:money_manager/customWidgets/snackbar.dart';
 import 'package:money_manager/model/transactionModel.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -45,7 +44,7 @@ class TransactionDetail extends StatelessWidget {
               Container(
                 margin: EdgeInsets.all(10.0),
                 padding: EdgeInsets.symmetric(horizontal: 8.0),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     color: primaryColor,
                     borderRadius: BorderRadius.all(Radius.circular(15.0))),
                 child: TextButton(
@@ -266,9 +265,7 @@ class TransactionDetail extends StatelessWidget {
       snackBar(context: context, title: "Enter Valid Amount");
     } else {
       TransactionModel transactionModel = TransactionModel(
-        id: transDetailController!.savedTransaction
-            ? transDetailController!.transactionId
-            : DateTime.now().microsecondsSinceEpoch,
+        id: "",
         title: transDetailController!.titleField.text,
         description: transDetailController!.descriptionField.text,
         amount: transDetailController!.amountField.text,

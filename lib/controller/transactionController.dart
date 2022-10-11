@@ -52,10 +52,10 @@ class TransactionController with ChangeNotifier {
   void updateTransaction(TransactionModel transactionModel) async =>
       await databaseHelper!
           .updateData(transactionTable, transactionModel.transactionToMap(),
-              transactionModel.id ?? 0)
+              transactionModel.id ?? "")
           .catchError((onError) => print("Update On Error: $onError"));
 
-  void deleteTransaction(int id) async => await databaseHelper!
+  void deleteTransaction(String id) async => await databaseHelper!
       .deleteData(transactionTable, id)
       .catchError((onError) => print("Deletion On Error: $onError"));
 

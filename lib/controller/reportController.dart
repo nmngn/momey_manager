@@ -1,13 +1,18 @@
+import 'package:get_it/get_it.dart';
 import 'package:money_manager/constFiles/strings.dart';
 import 'package:money_manager/model/transactionModel.dart';
-import 'package:money_manager/services/databaseHelper.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:money_manager/network/api/transaction.dart';
+import 'package:money_manager/network/dio_client.dart';
+import 'package:money_manager/network/service/service_locator.dart';
+
 
 class ReportController with ChangeNotifier {
-  DatabaseHelper? databaseHelper = DatabaseHelper.instance;
+  late TransactionApi repo;
+
   ReportController() {
-    if (databaseHelper != null) fetchTransaction();
+    repo = TransactionApi(getIt<DioClient>());
   }
 
   //default report method is income
