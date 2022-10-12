@@ -265,6 +265,7 @@ class TransactionDetail extends StatelessWidget {
       snackBar(context: context, title: "Enter Valid Amount");
     } else {
       TransactionModel transactionModel = TransactionModel(
+        idUser: "",
         id: "",
         title: transDetailController!.titleField.text,
         description: transDetailController!.descriptionField.text,

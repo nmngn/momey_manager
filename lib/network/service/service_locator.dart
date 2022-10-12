@@ -9,11 +9,6 @@ import '../dio_client.dart';
 final getIt = GetIt.instance;
 
 Future<void> setupLocator() async {
-  getIt.registerSingleton(DioClient(getIt<Dio>()));
-
-  getIt.registerSingleton(TransactionApi(
-    getIt<DioClient>(),
-  ));
-
-  getIt.registerSingleton(UserApi(getIt<DioClient>()));
+  getIt.registerSingleton(SharedPreferences);
+  getIt.registerSingleton<DioClient>(DioClient(Dio()));
 }

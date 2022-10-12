@@ -21,4 +21,5 @@ class Endpoints {
   static const String getOneTransaction = transactionUrl;
   static const String updateTransaction = transactionUrl;
   static const String deleteTransaction = transactionUrl;
+  static const String getTransactionRangeDate = transactionUrl;
 }

@@ -1,9 +1,7 @@
 import 'package:money_manager/constFiles/strings.dart';
-import 'package:money_manager/services/databaseHelper.dart';
 import 'package:flutter/cupertino.dart';
 
 class TransDetailController with ChangeNotifier {
-  DatabaseHelper? databaseHelper = DatabaseHelper.instance;
 
   TextEditingController titleField = TextEditingController();
   TextEditingController amountField = TextEditingController();

@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:money_manager/model/session.dart';
+import 'package:money_manager/network/api/user.dart';
 import 'package:money_manager/view/home.dart';
+import '../network/dio_client.dart';
+import '../network/service/service_locator.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -12,10 +15,12 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterClass extends State<RegisterScreen> {
   TextEditingController nameController = TextEditingController();
   String dateTime = '';
+  late UserApi repo;
 
   @override
   void initState() {
     super.initState();
+    repo = UserApi(getIt<DioClient>());
     nameController = TextEditingController();
   }
 
@@ -91,7 +96,11 @@ class _RegisterClass extends State<RegisterScreen> {
                 if (dateTime == "") {
                   dateTime = "1989-01-01";
                 }
-                setId('${nameController.text}/$dateTime');
+                var data = repo.createUser(nameController.text, dateTime);
+
+                setId(data.then((value) {
+                  return value.idUser;
+                }).toString());
                 Navigator.push(
                     context,
                     MaterialPageRoute(

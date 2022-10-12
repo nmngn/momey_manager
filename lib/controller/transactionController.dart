@@ -1,11 +1,11 @@
 import 'package:money_manager/constFiles/strings.dart';
 import 'package:money_manager/model/transactionModel.dart';
-import 'package:money_manager/services/databaseHelper.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:money_manager/network/api/transaction.dart';
+import '../network/dio_client.dart';
+import '../network/service/service_locator.dart';
 
 class TransactionController with ChangeNotifier {
-  DatabaseHelper? databaseHelper = DatabaseHelper.instance;
-
   List<TransactionModel?> transactionList = [];
 
   double totalIncome = 0.0;
@@ -13,9 +13,11 @@ class TransactionController with ChangeNotifier {
   double total = 0.0;
 
   bool fetching = false;
-
+  late TransactionApi repo;
+  
   TransactionController() {
-    if (databaseHelper != null) fetchTransaction();
+    repo = TransactionApi(getIt<DioClient>());
+    fetchTransaction();
   }
 
   void fetchTransaction() async {
@@ -25,9 +27,7 @@ class TransactionController with ChangeNotifier {
     totalExpense = 0.0;
     total = 0.0;
 
-    final dataList = await databaseHelper!.getData(transactionTable);
-
-    transactionList = dataList.map((e) => TransactionModel.fromMap(e)).toList();
+    transactionList = await repo.getAllTransaction();
 
     transactionList.forEach((element) {
       if (element!.isIncome == 1) {
@@ -44,19 +44,16 @@ class TransactionController with ChangeNotifier {
     notifyListeners();
   }
 
-  void insertTransaction(TransactionModel transactionModel) async =>
-      await databaseHelper!
-          .insertData(transactionTable, transactionModel.transactionToMap())
-          .catchError((onError) => print("Insertion On Error: $onError"));
+  void insertTransaction(TransactionModel transactionModel) async => await repo
+      .createTransaction(transactionModel)
+      .catchError((onError) => print("Insertion On Error: $onError"));
 
-  void updateTransaction(TransactionModel transactionModel) async =>
-      await databaseHelper!
-          .updateData(transactionTable, transactionModel.transactionToMap(),
-              transactionModel.id ?? "")
-          .catchError((onError) => print("Update On Error: $onError"));
+  void updateTransaction(TransactionModel transactionModel) async => await repo
+      .updateTransaction(transactionModel)
+      .catchError((onError) => print("Update On Error: $onError"));
 
-  void deleteTransaction(String id) async => await databaseHelper!
-      .deleteData(transactionTable, id)
+  void deleteTransaction(String id) async => await repo
+      .deleteTransaction(id)
       .catchError((onError) => print("Deletion On Error: $onError"));
 
   String tileIcon(String departmentName) {

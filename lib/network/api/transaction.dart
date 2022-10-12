@@ -10,22 +10,15 @@ class TransactionApi {
   // injecting dio instance
   TransactionApi(this._dioClient);
 
-  Future<TransactionModel> createTransaction(
-      String idUser,
-      String title,
-      String description,
-      String amount,
-      int isIncome,
-      String category,
-      String dateTime) async {
+  Future<TransactionModel> createTransaction(TransactionModel model) async {
     var data = {
-      "idUser": idUser,
-      "title": title,
-      "description": description,
-      "amount": amount,
-      "isIncome": isIncome,
-      "category": category,
-      "dateTime": dateTime
+      "idUser": model.idUser,
+      "title": model.title,
+      "description": model.description,
+      "amount": model.amount,
+      "isIncome": model.isIncome,
+      "category": model.category,
+      "dateTime": model.dateTime
     };
 
     try {
@@ -39,7 +32,6 @@ class TransactionApi {
       throw e;
     }
   }
-
 
   Future<TransactionModel> getOneTransaction(String id) async {
     var data = {"id": id};
@@ -56,7 +48,7 @@ class TransactionApi {
     }
   }
 
-    Future<TransactionModel> deleteTransaction(String id) async {
+  Future<TransactionModel> deleteTransaction(String id) async {
     var data = {"id": id};
 
     try {
@@ -71,35 +63,42 @@ class TransactionApi {
     }
   }
 
-
-  Future<TransactionModel> getAllTransaction() async {
+  Future<List<TransactionModel>> getAllTransaction() async {
     try {
-      final res = await _dioClient.get(Endpoints.getAllTransaction);
-      var map = Map<String, dynamic>.from(res);
-      var response = TransactionModel.fromMap(map);
-      return response;
+      final response = await _dioClient.get(Endpoints.getAllTransaction);
+      var result =
+          (response as List).map((e) => TransactionModel.fromMap(e)).toList();
+      return result;
     } catch (e) {
       print(e.toString());
       throw e;
     }
   }
 
-  Future<TransactionModel> updateTransaction(
-      String id,
-      String title,
-      String description,
-      String amount,
-      int isIncome,
-      String category,
-      String dateTime) async {
-    var param = ({"id": id});
+  Future<List<TransactionModel>> getTransactionRangeDate(
+      String sDay, String eDay) async {
+    var param = {"sDay": sDay, "eDay": eDay};
+    try {
+      final response = await _dioClient.get(Endpoints.getTransactionRangeDate,
+          queryParameters: param);
+      var result =
+          (response as List).map((e) => TransactionModel.fromMap(e)).toList();
+      return result;
+    } catch (e) {
+      print(e.toString());
+      throw e;
+    }
+  }
+
+  Future<TransactionModel> updateTransaction(TransactionModel model) async {
+    var param = ({"id": model.id});
     var data = {
-      "title": title,
-      "description": description,
-      "amount": amount,
-      "isIncome": isIncome,
-      "category": category,
-      "dateTime": dateTime
+      "title": model.title,
+      "description": model.description,
+      "amount": model.amount,
+      "isIncome": model.isIncome,
+      "category": model.category,
+      "dateTime": model.dateTime
     };
 
     try {
@@ -113,5 +112,4 @@ class TransactionApi {
       throw e;
     }
   }
-
 }

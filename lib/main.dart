@@ -19,11 +19,11 @@ class _MyApp extends State<MyApp> {
   String result = "";
 
   void loadId() async {
+    await setupLocator();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       result = prefs.getString('idUser') ?? "";
     });
-    await setupLocator();
   }
 
   @override

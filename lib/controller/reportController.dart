@@ -1,4 +1,3 @@
-import 'package:get_it/get_it.dart';
 import 'package:money_manager/constFiles/strings.dart';
 import 'package:money_manager/model/transactionModel.dart';
 import 'package:flutter/material.dart';
@@ -7,17 +6,17 @@ import 'package:money_manager/network/api/transaction.dart';
 import 'package:money_manager/network/dio_client.dart';
 import 'package:money_manager/network/service/service_locator.dart';
 
-
 class ReportController with ChangeNotifier {
   late TransactionApi repo;
 
   ReportController() {
     repo = TransactionApi(getIt<DioClient>());
+    fetchTransaction();
   }
 
   //default report method is income
   String reportMethod = income;
-
+  
   List<TransactionModel?> transactionList = [];
   List<TransactionModel?> transactionIncomeList = [];
   List<TransactionModel?> transactionExpenseList = [];
@@ -55,7 +54,7 @@ class ReportController with ChangeNotifier {
     DateTime fromDate = customFromDate ?? DateTime.now();
     DateTime toDate = customFromDate ?? DateTime.now();
 
-    transactionList = [];
+    // transactionList = [];
 
     String fromDayPattern = 'd';
     String fromMonthPattern = 'M';
@@ -75,13 +74,12 @@ class ReportController with ChangeNotifier {
     String toDateFormat = "y-$toMonthPattern-$toDayPattern";
 
     //get data from database
-    final dataList = await databaseHelper!.getDateRangeData(
-        transactionTable,
+    transactionList = await repo.getTransactionRangeDate(
         DateFormat(fromDateFormat).format(fromDate),
         DateFormat(toDateFormat).format(toDate));
 
     //converting to transactionModel
-    transactionList = dataList.map((e) => TransactionModel.fromMap(e)).toList();
+    // transactionList = dataList.map((e) => TransactionModel.fromMap(e)).toList();
 
     //separating income and expense data
     transactionIncomeList =
