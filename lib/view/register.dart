@@ -97,8 +97,8 @@ class _RegisterClass extends State<RegisterScreen> {
                   dateTime = "1989-01-01";
                 }
                 var data = repo.createUser(nameController.text, dateTime);
-
-                setId(data.then((value) {
+                Session.setData(nameController.text);
+                Session.setId(data.then((value) {
                   return value.idUser;
                 }).toString());
                 Navigator.push(

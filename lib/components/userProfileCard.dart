@@ -15,9 +15,9 @@ class _UserProfileCard extends State<UserProfileCard> {
   @override
   void initState() {
     super.initState();
-    getId().then((String value) {
+    Session.getUsername().then((String value) {
       setState(() {
-        this.userName = value;
+        userName = value;
       });
     });
   }
