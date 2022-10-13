@@ -9,8 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-class TransactionDetail extends StatelessWidget {
-  TransactionDetail({Key? key}) : super(key: key);
+import '../model/session.dart';
+
+class TransactionDetail extends StatefulWidget {
+  @override
+  _TransactionDetail createState() => _TransactionDetail();
+}
+
+class _TransactionDetail extends State<TransactionDetail> {
   static TransDetailController? transDetailController;
   static TransactionController? transController;
   static ReportController? reportController;
@@ -257,6 +263,12 @@ class TransactionDetail extends StatelessWidget {
   }
 
   save(BuildContext context) {
+    String idUser = "";
+    Session.getId().then((String value) {
+      setState(() {
+        idUser = value;
+      });
+    });
     if (transDetailController!.titleField.text.isEmpty) {
       snackBar(context: context, title: "Title Is Mandatory");
     } else if (double.tryParse(transDetailController!.amountField.text) ==
@@ -265,7 +277,7 @@ class TransactionDetail extends StatelessWidget {
       snackBar(context: context, title: "Enter Valid Amount");
     } else {
       TransactionModel transactionModel = TransactionModel(
-        idUser: "",
+        idUser: idUser,
         id: "",
         title: transDetailController!.titleField.text,
         description: transDetailController!.descriptionField.text,

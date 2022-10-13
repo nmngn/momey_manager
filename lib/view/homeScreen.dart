@@ -6,7 +6,6 @@ import 'package:money_manager/controller/transactionController.dart';
 import 'package:money_manager/controller/transDetailController.dart';
 import 'package:money_manager/customWidgets/textButton.dart';
 import 'package:money_manager/view/transactionList.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,7 +18,7 @@ class HomeScreen extends StatelessWidget {
         Provider.of<TransDetailController>(context);
 
     return transactionController.fetching
-        ? Center(child: CircularProgressIndicator())
+        ? const Center(child: CircularProgressIndicator())
         : Column(
             children: [
               //userData
@@ -30,7 +29,7 @@ class HomeScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
+                  const Expanded(
                       flex: 4,
                       child: Text("Recent transactions",
                           style: TextStyle(
@@ -41,8 +40,8 @@ class HomeScreen extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (BuildContext context) =>
-                                  TransactionList())),
-                      textStyle: TextStyle(
+                                  const TransactionList())),
+                      textStyle: const TextStyle(
                           color: selectedTextButton,
                           fontWeight: FontWeight.bold),
                       text: 'See All',

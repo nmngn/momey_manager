@@ -15,7 +15,7 @@ class ReportScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     reportController = Provider.of<ReportController>(context);
-
+    reportController?.fetchTransaction();
     return Column(
       children: [
         //category selector

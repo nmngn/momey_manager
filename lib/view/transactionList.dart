@@ -65,9 +65,9 @@ class TransactionList extends StatelessWidget {
                     height: 50.0,
                     width: 50.0,
                     padding: EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         color: whiteColor,
-                        boxShadow: [BoxShadow(color: blackColor)],
+                        boxShadow: [BoxShadow(color: Colors.transparent)],
                         borderRadius: BorderRadius.all(Radius.circular(10.0))),
                     child: SvgPicture.asset(
                       transactionController.tileIcon(data.category ?? others),
