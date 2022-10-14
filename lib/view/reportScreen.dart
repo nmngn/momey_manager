@@ -15,11 +15,10 @@ class ReportScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     reportController = Provider.of<ReportController>(context);
-    reportController?.fetchTransaction();
     return Column(
       children: [
         //category selector
-        CategorySelectHeader(),
+        const CategorySelectHeader(),
 
         //pie chart, if not full report
         if (reportController!.reportMethod != fullReport)
@@ -46,7 +45,7 @@ class ReportScreen extends StatelessWidget {
                 others: chartValue(reportController!.othersIncomeAmount,
                     reportController!.othersExpenseAmount),
               },
-              animationDuration: Duration(seconds: 1),
+              animationDuration: const Duration(seconds: 1),
               ringStrokeWidth: 40,
               chartType: ChartType.ring,
               legendOptions: const LegendOptions(showLegends: true),
@@ -64,44 +63,44 @@ class ReportScreen extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
                 color: primaryColor.withOpacity(0.85),
-                borderRadius: BorderRadius.all(Radius.circular(20.0))),
-            padding: EdgeInsets.all(10.0),
+                borderRadius: const BorderRadius.all(Radius.circular(20.0))),
+            padding: const EdgeInsets.all(10.0),
             width: double.infinity,
             child: Column(
               children: [
                 Text("Balance: ${reportController!.total.toStringAsFixed(1)}",
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
                         color: whiteColor)),
-                SizedBox(height: 10.0),
+                const SizedBox(height: 10.0),
                 Row(
                   children: [
                     Expanded(
                       child: Text(
                           "Income:\n${reportController!.totalIncome.toStringAsFixed(1)}",
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 20.0, color: whiteColor)),
+                          style: const TextStyle(fontSize: 20.0, color: whiteColor)),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Expanded(
                       child: Text(
                           "Expense:\n${reportController!.totalExpense.toStringAsFixed(1)}",
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 20.0, color: whiteColor)),
+                          style: const TextStyle(fontSize: 20.0, color: whiteColor)),
                     ),
                   ],
                 ),
               ],
             ),
           ),
-        SizedBox(
+        const SizedBox(
           height: 12,
         ),
         //category list
         Expanded(
           child: ListView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             children: [
               tile(
                 title: "Health",
@@ -174,14 +173,16 @@ class ReportScreen extends StatelessWidget {
     String trailingAmount = "0.0";
     if (reportController!.reportMethod == income) {
       percentage = incomeAmount / reportController!.totalIncome * 100;
-      if (incomeAmount != 0)
+      if (incomeAmount != 0) {
         trailingAmount = "+${incomeAmount.toStringAsFixed(1)}";
+      }
     }
 
     if (reportController!.reportMethod == expense) {
       percentage = expenseAmount / reportController!.totalExpense * 100;
-      if (expenseAmount != 0)
+      if (expenseAmount != 0) {
         trailingAmount = "-${expenseAmount.toStringAsFixed(1)}";
+      }
     }
 
     if (reportController!.reportMethod == fullReport) {
@@ -190,11 +191,11 @@ class ReportScreen extends StatelessWidget {
 
     return ListTile(
       title: Text(title),
-      contentPadding: EdgeInsets.all(10.0),
+      contentPadding: const EdgeInsets.all(10.0),
       leading: Container(
         height: 50.0,
         width: 50.0,
-        padding: EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(10.0),
         decoration: const BoxDecoration(
             color: whiteColor,
             boxShadow: [BoxShadow(color: Colors.transparent)],
@@ -210,9 +211,9 @@ class ReportScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("$income: ${incomeAmount.toStringAsFixed(1)}",
-                    style: TextStyle(color: incomeGreen)),
+                    style: const TextStyle(color: incomeGreen)),
                 Text("$expense: ${expenseAmount.toStringAsFixed(1)}",
-                    style: TextStyle(color: expenseRed)),
+                    style: const TextStyle(color: expenseRed)),
               ],
             )
           : Text(

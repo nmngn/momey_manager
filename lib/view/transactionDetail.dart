@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:money_manager/constFiles/colors.dart';
 import 'package:money_manager/constFiles/strings.dart';
 import 'package:money_manager/controller/reportController.dart';
@@ -21,6 +22,18 @@ class _TransactionDetail extends State<TransactionDetail> {
   static TransactionController? transController;
   static ReportController? reportController;
 
+  String idUser = "";
+
+  @override
+  void initState() {
+    super.initState();
+    Session.getId().then((String value) {
+      setState(() {
+        idUser = value;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     transDetailController = Provider.of<TransDetailController>(context);
@@ -35,11 +48,11 @@ class _TransactionDetail extends State<TransactionDetail> {
           children: [
             Text(
               transDetailController!.isIncomeSelected ? income : expense,
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                  color: Colors.black, fontWeight: FontWeight.bold),
             ),
             IconButton(
-                icon: Icon(Icons.refresh_outlined),
+                icon: const Icon(Icons.refresh_outlined),
                 tooltip: "Change Category",
                 onPressed: () => transDetailController!.changeCategory())
           ],
@@ -48,8 +61,8 @@ class _TransactionDetail extends State<TransactionDetail> {
           Row(
             children: [
               Container(
-                margin: EdgeInsets.all(10.0),
-                padding: EdgeInsets.symmetric(horizontal: 8.0),
+                margin: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 decoration: const BoxDecoration(
                     color: primaryColor,
                     borderRadius: BorderRadius.all(Radius.circular(15.0))),
@@ -59,19 +72,19 @@ class _TransactionDetail extends State<TransactionDetail> {
                         transDetailController!.savedTransaction
                             ? "Update"
                             : "Save",
-                        style: TextStyle(color: whiteColor))),
+                        style: const TextStyle(color: whiteColor))),
               ),
             ],
           )
         ],
-        iconTheme: IconThemeData(color: blackColor),
+        iconTheme: const IconThemeData(color: blackColor),
       ),
       body: Column(
         children: [
           GridView(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3, childAspectRatio: 1.4),
             children: [
               categoryIcons(
@@ -156,21 +169,22 @@ class _TransactionDetail extends State<TransactionDetail> {
           ),
           Container(
             color: primaryColor,
-            padding: EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(10.0),
             child: Row(
               children: [
                 Expanded(
                     flex: 5,
                     child: TextField(
                       controller: transDetailController!.titleField,
+                      autocorrect: false,
                       cursorColor: greyText,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: greyText,
                           fontSize: 18,
                           fontWeight: FontWeight.bold),
                       decoration: InputDecoration(
                           hintText: "Title",
-                          hintStyle: TextStyle(color: greyText),
+                          hintStyle: const TextStyle(color: greyText),
                           prefixIcon: Padding(
                             padding:
                                 const EdgeInsets.only(right: 15.0, left: 5.0),
@@ -182,20 +196,23 @@ class _TransactionDetail extends State<TransactionDetail> {
                           ),
                           border: InputBorder.none),
                     )),
-                Spacer(),
+                const Spacer(),
                 Expanded(
                     flex: 2,
                     child: TextField(
                       controller: transDetailController!.amountField,
                       textAlign: TextAlign.end,
-                      keyboardType: TextInputType.numberWithOptions(
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
+                      keyboardType: const TextInputType.numberWithOptions(
                           decimal: true, signed: false),
                       cursorColor: greyText,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: greyText,
                           fontSize: 20,
                           fontWeight: FontWeight.bold),
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                           hintText: "Amount",
                           hintStyle: TextStyle(color: greyText),
                           border: InputBorder.none),
@@ -211,7 +228,7 @@ class _TransactionDetail extends State<TransactionDetail> {
                 textAlign: TextAlign.start,
                 minLines: 20,
                 maxLines: 50,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     hintText: "Description here...", border: InputBorder.none),
               ),
             ),
@@ -239,8 +256,8 @@ class _TransactionDetail extends State<TransactionDetail> {
         child: Container(
           padding: const EdgeInsets.all(8.0),
           decoration: BoxDecoration(
-              color: isSelected ? Color(0xffeae1f9) : Colors.transparent,
-              borderRadius: BorderRadius.all(Radius.circular(15.0))),
+              color: isSelected ? const Color(0xffeae1f9) : Colors.transparent,
+              borderRadius: const BorderRadius.all(Radius.circular(15.0))),
           child: Column(
             children: [
               Expanded(
@@ -263,12 +280,6 @@ class _TransactionDetail extends State<TransactionDetail> {
   }
 
   save(BuildContext context) {
-    String idUser = "";
-    Session.getId().then((String value) {
-      setState(() {
-        idUser = value;
-      });
-    });
     if (transDetailController!.titleField.text.isEmpty) {
       snackBar(context: context, title: "Title Is Mandatory");
     } else if (double.tryParse(transDetailController!.amountField.text) ==
@@ -276,23 +287,24 @@ class _TransactionDetail extends State<TransactionDetail> {
         transDetailController!.amountField.text.contains("-")) {
       snackBar(context: context, title: "Enter Valid Amount");
     } else {
-      TransactionModel transactionModel = TransactionModel(
-        idUser: idUser,
-        id: "",
-        title: transDetailController!.titleField.text,
-        description: transDetailController!.descriptionField.text,
-        amount: transDetailController!.amountField.text,
-        isIncome: transDetailController!.isIncomeSelected ? 1 : 0,
-        category: transDetailController!.selectedDepartment,
-        dateTime: transDetailController!.savedTransaction
-            ? transDetailController!.date
-            : DateTime.now().toString(),
-      );
-
       if (transDetailController!.savedTransaction) {
-        transController!.updateTransaction(transactionModel);
+        transController!.updateTransaction(
+            transDetailController!.titleField.text,
+            transDetailController!.descriptionField.text,
+            transDetailController!.amountField.text,
+            transDetailController!.selectedDepartment,
+            transDetailController!.date,
+            transDetailController!.isIncomeSelected ? true : false,
+            transDetailController!.transactionId);
       } else {
-        transController!.insertTransaction(transactionModel);
+        transController!.insertTransaction(
+            transDetailController!.titleField.text,
+            idUser,
+            transDetailController!.descriptionField.text,
+            transDetailController!.amountField.text,
+            transDetailController!.selectedDepartment,
+            DateTime.now().toString(),
+            transDetailController!.isIncomeSelected ? true : false);
       }
       transController!.fetchTransaction();
       reportController!.fetchTransaction();

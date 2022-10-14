@@ -10,15 +10,22 @@ class TransactionApi {
   // injecting dio instance
   TransactionApi(this._dioClient);
 
-  Future<TransactionModel> createTransaction(TransactionModel model) async {
+  Future<TransactionModel> createTransaction(
+      String title,
+      String idUser,
+      String description,
+      String amount,
+      String category,
+      String dateTime,
+      int isIncome) async {
     var data = {
-      "idUser": model.idUser,
-      "title": model.title,
-      "description": model.description,
-      "amount": model.amount,
-      "isIncome": model.isIncome,
-      "category": model.category,
-      "dateTime": model.dateTime
+      "idUser": idUser,
+      "title": title,
+      "description": description,
+      "amount": amount,
+      "isIncome": isIncome,
+      "category": category,
+      "dateTime": dateTime
     };
 
     try {
@@ -90,15 +97,23 @@ class TransactionApi {
     }
   }
 
-  Future<TransactionModel> updateTransaction(TransactionModel model) async {
-    var param = ({"id": model.id});
+  Future<TransactionModel> updateTransaction(
+      String id,
+      String title,
+      String idUser,
+      String description,
+      String amount,
+      String category,
+      String dateTime,
+      int isIncome) async {
+    var param = ({"id": id});
     var data = {
-      "title": model.title,
-      "description": model.description,
-      "amount": model.amount,
-      "isIncome": model.isIncome,
-      "category": model.category,
-      "dateTime": model.dateTime
+      "title": title,
+      "description": description,
+      "amount": amount,
+      "isIncome": isIncome,
+      "category": category,
+      "dateTime": dateTime
     };
 
     try {
