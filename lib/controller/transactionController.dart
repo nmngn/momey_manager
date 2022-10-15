@@ -32,7 +32,7 @@ class TransactionController with ChangeNotifier {
     transactionList = await repo.getAllTransaction();
 
     for (var element in transactionList) {
-      if (element!.isIncome == 1) {
+      if (element!.isIncome == true) {
         totalIncome += double.parse(element.amount ?? "0.0");
       } else {
         totalExpense += double.parse(element.amount ?? "0.0");
@@ -61,7 +61,6 @@ class TransactionController with ChangeNotifier {
 
   void updateTransaction(
           String title,
-          String idUser,
           String description,
           String amount,
           String category,
@@ -69,7 +68,7 @@ class TransactionController with ChangeNotifier {
           bool isIncome,
           String id) async =>
       await repo
-          .updateTransaction(id, title, idUser, description, amount, category,
+          .updateTransaction(id, title, description, amount, category,
               dateTime, isIncome)
           .catchError((onError) => print("Update On Error: $onError"));
 

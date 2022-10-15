@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'package:money_manager/model/transactionModel.dart';
 import '../dio_client.dart';
 import '../endpoint/endpoint.dart';
@@ -17,7 +18,7 @@ class TransactionApi {
       String amount,
       String category,
       String dateTime,
-      int isIncome) async {
+      bool isIncome) async {
     var data = {
       "idUser": idUser,
       "title": title,
@@ -36,7 +37,7 @@ class TransactionApi {
       return response;
     } catch (e) {
       print(e.toString());
-      throw e;
+      rethrow;
     }
   }
 
@@ -51,7 +52,7 @@ class TransactionApi {
       return response;
     } catch (e) {
       print(e.toString());
-      throw e;
+      rethrow;
     }
   }
 
@@ -66,7 +67,7 @@ class TransactionApi {
       return response;
     } catch (e) {
       print(e.toString());
-      throw e;
+      rethrow;
     }
   }
 
@@ -78,7 +79,7 @@ class TransactionApi {
       return result;
     } catch (e) {
       print(e.toString());
-      throw e;
+      rethrow;
     }
   }
 
@@ -93,19 +94,18 @@ class TransactionApi {
       return result;
     } catch (e) {
       print(e.toString());
-      throw e;
+      rethrow;
     }
   }
 
   Future<TransactionModel> updateTransaction(
       String id,
       String title,
-      String idUser,
       String description,
       String amount,
       String category,
       String dateTime,
-      int isIncome) async {
+      bool isIncome) async {
     var param = ({"id": id});
     var data = {
       "title": title,
@@ -113,7 +113,7 @@ class TransactionApi {
       "amount": amount,
       "isIncome": isIncome,
       "category": category,
-      "dateTime": dateTime
+      "dateTime": dateTime,
     };
 
     try {
@@ -124,7 +124,7 @@ class TransactionApi {
       return response;
     } catch (e) {
       print(e.toString());
-      throw e;
+      rethrow;
     }
   }
 }

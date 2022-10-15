@@ -5,7 +5,6 @@ import 'package:money_manager/controller/reportController.dart';
 import 'package:money_manager/controller/transDetailController.dart';
 import 'package:money_manager/controller/transactionController.dart';
 import 'package:money_manager/customWidgets/snackbar.dart';
-import 'package:money_manager/model/transactionModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';

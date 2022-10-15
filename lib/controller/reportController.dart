@@ -84,9 +84,9 @@ class ReportController with ChangeNotifier {
 
     //separating income and expense data
     transactionIncomeList =
-        transactionList.where((element) => element!.isIncome == 1).toList();
+        transactionList.where((element) => element!.isIncome == true).toList();
     transactionExpenseList =
-        transactionList.where((element) => element!.isIncome == 0).toList();
+        transactionList.where((element) => element!.isIncome == false).toList();
 
     //calculate total amount of income and expense
     totalIncome = transactionIncomeList.fold(

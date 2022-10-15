@@ -37,9 +37,9 @@ class TransactionList extends StatelessWidget {
                 TransactionModel? data =
                     transactionController.transactionList[index];
 
-                String amountSign = data!.isIncome == 1 ? "+" : "-";
+                String amountSign = data!.isIncome == true ? "+" : "-";
                 Color amountColor =
-                    data.isIncome == 1 ? incomeGreen : expenseRed;
+                    data.isIncome == true ? incomeGreen : expenseRed;
 
                 return ListTile(
                   onTap: () {
@@ -50,7 +50,7 @@ class TransactionList extends StatelessWidget {
                         description: data.description,
                         amount: data.amount,
                         department: data.category,
-                        isIncome: data.isIncome == 1 ? true : false,
+                        isIncome: data.isIncome == true ? true : false,
                         dateTime: data.dateTime);
 
                     Navigator.push(
