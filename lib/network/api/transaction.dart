@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:ffi';
+import 'package:flutter/material.dart';
 import 'package:money_manager/model/transactionModel.dart';
 import '../dio_client.dart';
 import '../endpoint/endpoint.dart';
@@ -56,17 +57,20 @@ class TransactionApi {
     }
   }
 
-  Future<void> deleteTransaction(String id) async {
-
+  Future<bool> deleteTransaction(String id) async {
     try {
       final res = await _dioClient.delete(Endpoints.deleteTransaction + id);
-      print(res);
+      var map = Map<String, dynamic>.from(res);
+      if (map["success"] == true) {
+        print("deleted success");
+        return true;
+      }
+      return false;
     } catch (e) {
       print(e.toString());
       rethrow;
     }
   }
-
 
   Future<List<TransactionModel>> getAllTransaction() async {
     try {

@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:money_manager/constFiles/strings.dart';
 import 'package:money_manager/model/session.dart';
 import 'package:money_manager/model/transactionModel.dart';
@@ -16,19 +14,18 @@ class TransactionController with ChangeNotifier {
   double totalExpense = 0.0;
   double total = 0.0;
 
-  String idUser = "";
   bool fetching = false;
+  bool isNeedReload = false;
   late TransactionApi repo;
 
   TransactionController() {
     repo = TransactionApi(getIt<DioClient>());
     Session.getId().then((String value) {
-      idUser = value;
+      fetchTransaction(value);
     });
-    fetchTransaction();
   }
 
-  void fetchTransaction() async {
+  void fetchTransaction(String idUser) async {
     fetching = true;
     transactionList = [];
     totalIncome = 0.0;
@@ -51,7 +48,7 @@ class TransactionController with ChangeNotifier {
     total = totalIncome - totalExpense;
 
     fetching = false;
-
+    isNeedReload = false;
     notifyListeners();
   }
 
@@ -78,8 +75,8 @@ class TransactionController with ChangeNotifier {
         id, title, description, amount, category, dateTime, isIncome);
   }
 
-  Future<void> deleteTransaction(String id) async {
-    await repo.deleteTransaction(id);
+  Future<bool> deleteTransaction(String id) async {
+    return await repo.deleteTransaction(id);
   }
 
   String tileIcon(String departmentName) {

@@ -280,11 +280,11 @@ class _TransactionDetail extends State<TransactionDetail> {
 
   save(BuildContext context) {
     if (transDetailController!.titleField.text.isEmpty) {
-      snackBar(context: context, title: "Title Is Mandatory");
+      snackBar(context: context, title: "Title Is Mandatory", duration: 600);
     } else if (double.tryParse(transDetailController!.amountField.text) ==
             null ||
         transDetailController!.amountField.text.contains("-")) {
-      snackBar(context: context, title: "Enter Valid Amount");
+      snackBar(context: context, title: "Enter Valid Amount", duration: 600);
     } else {
       if (transDetailController!.savedTransaction) {
         transController!.updateTransaction(
@@ -305,7 +305,7 @@ class _TransactionDetail extends State<TransactionDetail> {
             DateTime.now().toString(),
             transDetailController!.isIncomeSelected ? true : false);
       }
-      transController!.fetchTransaction();
+      transController!.fetchTransaction(idUser);
       reportController!.fetchTransaction();
       Navigator.pop(context);
     }

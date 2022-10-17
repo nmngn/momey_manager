@@ -9,7 +9,6 @@ class Session {
   static Future<String> getId() async {
     final prefs = await SharedPreferences.getInstance();
     final String? data = prefs.getString('idUser');
-    print("This is id" + data!);
     return Future.value(data);
   }
 
@@ -21,7 +20,6 @@ class Session {
   static Future<String> getUsername() async {
     final prefs = await SharedPreferences.getInstance();
     final String? data = prefs.getString('username');
-    print("This is name" + data!);
     return Future.value(data);
   }
 }

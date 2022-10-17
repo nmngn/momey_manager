@@ -9,13 +9,36 @@ import 'package:money_manager/view/transactionList.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class HomeScreen extends StatelessWidget {
+import '../model/session.dart';
+
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreen createState() => _HomeScreen();
+}
+
+class _HomeScreen extends State<HomeScreen> {
+  String idUser = "";
+
+  @override
+  void initState() {
+    super.initState();
+    Session.getId().then((String value) {
+      idUser = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     TransactionController transactionController =
         Provider.of<TransactionController>(context);
     TransDetailController transactionDetailController =
         Provider.of<TransDetailController>(context);
+
+    setState(() {
+      if (transactionController.isNeedReload) {
+        transactionController.fetchTransaction(idUser);
+      }
+    });
 
     return transactionController.fetching
         ? const Center(child: CircularProgressIndicator())

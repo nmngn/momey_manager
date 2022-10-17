@@ -9,6 +9,9 @@ import 'package:money_manager/view/transactionDetail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:money_manager/customWidgets/snackbar.dart';
+
+import '../model/session.dart';
 
 class TransactionList extends StatefulWidget {
   @override
@@ -16,6 +19,15 @@ class TransactionList extends StatefulWidget {
 }
 
 class _TransactionList extends State<TransactionList> {
+  String idUser = "";
+  @override
+  void initState() {
+    super.initState();
+    Session.getId().then((String value) {
+      idUser = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     TransactionController transactionController =
@@ -91,9 +103,27 @@ class _TransactionList extends State<TransactionList> {
                   ),
                   trailing: IconButton(
                     onPressed: () {
-                      transactionController.deleteTransaction(data.id ?? "");
                       setState(() {
-                        transactionController.fetchTransaction();
+                        snackBar(
+                            context: context,
+                            title: "Deleting ...",
+                            duration: 600);
+                        transactionController
+                            .deleteTransaction(data.id ?? "")
+                            .then((bool value) {
+                          if (value) {
+                            snackBar(
+                                context: context,
+                                title: "Deleted",
+                                duration: 600);
+                          } else {
+                            snackBar(
+                                context: context,
+                                title: "Delete Failed",
+                                duration: 600);
+                          }
+                        });
+                        transactionController.fetchTransaction(idUser);
                         reportController.fetchTransaction();
                       });
                     },
