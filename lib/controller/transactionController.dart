@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:money_manager/constFiles/strings.dart';
 import 'package:money_manager/model/transactionModel.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,7 +16,7 @@ class TransactionController with ChangeNotifier {
 
   bool fetching = false;
   late TransactionApi repo;
-  
+
   TransactionController() {
     repo = TransactionApi(getIt<DioClient>());
     fetchTransaction();
@@ -29,13 +31,13 @@ class TransactionController with ChangeNotifier {
 
     transactionList = await repo.getAllTransaction();
 
-    transactionList.forEach((element) {
-      if (element!.isIncome == 1) {
+    for (var element in transactionList) {
+      if (element!.isIncome == true) {
         totalIncome += double.parse(element.amount ?? "0.0");
       } else {
         totalExpense += double.parse(element.amount ?? "0.0");
       }
-    });
+    }
 
     total = totalIncome - totalExpense;
 
@@ -44,13 +46,31 @@ class TransactionController with ChangeNotifier {
     notifyListeners();
   }
 
-  void insertTransaction(TransactionModel transactionModel) async => await repo
-      .createTransaction(transactionModel)
-      .catchError((onError) => print("Insertion On Error: $onError"));
+  void insertTransaction(
+          String title,
+          String idUser,
+          String description,
+          String amount,
+          String category,
+          String dateTime,
+          bool isIncome) async =>
+      await repo
+          .createTransaction(
+              title, idUser, description, amount, category, dateTime, isIncome)
+          .catchError((onError) => print("Insertion On Error: $onError"));
 
-  void updateTransaction(TransactionModel transactionModel) async => await repo
-      .updateTransaction(transactionModel)
-      .catchError((onError) => print("Update On Error: $onError"));
+  void updateTransaction(
+          String title,
+          String description,
+          String amount,
+          String category,
+          String dateTime,
+          bool isIncome,
+          String id) async =>
+      await repo
+          .updateTransaction(id, title, description, amount, category,
+              dateTime, isIncome)
+          .catchError((onError) => print("Update On Error: $onError"));
 
   void deleteTransaction(String id) async => await repo
       .deleteTransaction(id)

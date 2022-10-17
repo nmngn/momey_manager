@@ -4,7 +4,7 @@ class TransactionModel {
   final String? title;
   final String? description;
   final String? amount;
-  final int? isIncome;
+  final bool? isIncome;
   final String? category;
   final String? dateTime;
 

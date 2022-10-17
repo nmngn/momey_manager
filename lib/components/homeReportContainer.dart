@@ -15,16 +15,16 @@ class HomeReportContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(15.0),
-      margin: EdgeInsets.symmetric(vertical: 20.0),
+      padding: const EdgeInsets.all(15.0),
+      margin: const EdgeInsets.symmetric(vertical: 20.0),
       decoration: BoxDecoration(
           color: primaryColor.withOpacity(0.85),
-          borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          borderRadius: const BorderRadius.all(Radius.circular(20.0))),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text("Total Balance",
+          const Text("Total Balance",
               style: TextStyle(
                   color: whiteColor,
                   fontSize: 22,
@@ -32,11 +32,11 @@ class HomeReportContainer extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("INR", style: TextStyle(color: textINRColor)),
+              const Text("INR", style: TextStyle(color: textINRColor)),
               Expanded(
                 child: AutoSizeText(
                     transactionController.total.toStringAsFixed(1),
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: whiteColor,
                         fontSize: 30,
                         fontWeight: FontWeight.bold),
@@ -47,7 +47,7 @@ class HomeReportContainer extends StatelessWidget {
           ),
           IncomeExpense(transactionController: transactionController),
         ]
-            .map((e) => Padding(padding: EdgeInsets.only(top: 15.0), child: e))
+            .map((e) => Padding(padding: const EdgeInsets.only(top: 15.0), child: e))
             .toList(),
       ),
     );
@@ -65,8 +65,8 @@ class IncomeExpense extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.all(10),
+      decoration: const BoxDecoration(
           color: containerColor,
           borderRadius: BorderRadius.all(Radius.circular(20.0))),
       child: Row(
@@ -78,14 +78,14 @@ class IncomeExpense extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Icon(Icons.arrow_downward, color: incomeGreen),
-                    Text(income, style: TextStyle(color: containerText)),
+                    const Icon(Icons.arrow_downward, color: incomeGreen),
+                    Text(income, style: const TextStyle(color: containerText)),
                   ],
                 ),
                 Center(
                   child: AutoSizeText(
                     transactionController.totalIncome.toStringAsFixed(1),
-                    style: TextStyle(color: whiteColor, fontSize: 20),
+                    style: const TextStyle(color: whiteColor, fontSize: 20),
                     maxLines: 2,
                     textAlign: TextAlign.center,
                   ),
@@ -94,7 +94,7 @@ class IncomeExpense extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 10.0),
+            margin: const EdgeInsets.symmetric(horizontal: 10.0),
             color: containerText,
             width: 2,
             height: 50.0,
@@ -105,14 +105,14 @@ class IncomeExpense extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Icon(Icons.arrow_upward, color: expenseRed),
-                    Text(expense, style: TextStyle(color: containerText)),
+                    const Icon(Icons.arrow_upward, color: expenseRed),
+                    Text(expense, style: const TextStyle(color: containerText)),
                   ],
                 ),
                 Center(
                   child: AutoSizeText(
                     transactionController.totalExpense.toStringAsFixed(1),
-                    style: TextStyle(color: whiteColor, fontSize: 20),
+                    style: const TextStyle(color: whiteColor, fontSize: 20),
                     maxLines: 2,
                     textAlign: TextAlign.center,
                   ),

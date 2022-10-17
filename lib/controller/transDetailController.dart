@@ -12,8 +12,8 @@ class TransDetailController with ChangeNotifier {
 
   String selectedDepartment = others;
 
-  String? transactionId;
-  String? date;
+  String transactionId = "";
+  String date = "";
 
   bool buttonSelected = true;
 
@@ -55,7 +55,7 @@ class TransDetailController with ChangeNotifier {
     String? dateTime,
   }) {
     savedTransaction = isSaved;
-    transactionId = id;
+    transactionId = id ?? "";
     titleField.text = title ?? "";
     descriptionField.text = description ?? "";
     amountField.text = amount ?? "";

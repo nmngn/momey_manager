@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'package:money_manager/model/transactionModel.dart';
 import '../dio_client.dart';
 import '../endpoint/endpoint.dart';
@@ -10,15 +11,22 @@ class TransactionApi {
   // injecting dio instance
   TransactionApi(this._dioClient);
 
-  Future<TransactionModel> createTransaction(TransactionModel model) async {
+  Future<TransactionModel> createTransaction(
+      String title,
+      String idUser,
+      String description,
+      String amount,
+      String category,
+      String dateTime,
+      bool isIncome) async {
     var data = {
-      "idUser": model.idUser,
-      "title": model.title,
-      "description": model.description,
-      "amount": model.amount,
-      "isIncome": model.isIncome,
-      "category": model.category,
-      "dateTime": model.dateTime
+      "idUser": idUser,
+      "title": title,
+      "description": description,
+      "amount": amount,
+      "isIncome": isIncome,
+      "category": category,
+      "dateTime": dateTime
     };
 
     try {
@@ -29,7 +37,7 @@ class TransactionApi {
       return response;
     } catch (e) {
       print(e.toString());
-      throw e;
+      rethrow;
     }
   }
 
@@ -44,7 +52,7 @@ class TransactionApi {
       return response;
     } catch (e) {
       print(e.toString());
-      throw e;
+      rethrow;
     }
   }
 
@@ -59,7 +67,7 @@ class TransactionApi {
       return response;
     } catch (e) {
       print(e.toString());
-      throw e;
+      rethrow;
     }
   }
 
@@ -71,7 +79,7 @@ class TransactionApi {
       return result;
     } catch (e) {
       print(e.toString());
-      throw e;
+      rethrow;
     }
   }
 
@@ -86,19 +94,26 @@ class TransactionApi {
       return result;
     } catch (e) {
       print(e.toString());
-      throw e;
+      rethrow;
     }
   }
 
-  Future<TransactionModel> updateTransaction(TransactionModel model) async {
-    var param = ({"id": model.id});
+  Future<TransactionModel> updateTransaction(
+      String id,
+      String title,
+      String description,
+      String amount,
+      String category,
+      String dateTime,
+      bool isIncome) async {
+    var param = ({"id": id});
     var data = {
-      "title": model.title,
-      "description": model.description,
-      "amount": model.amount,
-      "isIncome": model.isIncome,
-      "category": model.category,
-      "dateTime": model.dateTime
+      "title": title,
+      "description": description,
+      "amount": amount,
+      "isIncome": isIncome,
+      "category": category,
+      "dateTime": dateTime,
     };
 
     try {
@@ -109,7 +124,7 @@ class TransactionApi {
       return response;
     } catch (e) {
       print(e.toString());
-      throw e;
+      rethrow;
     }
   }
 }

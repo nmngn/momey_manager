@@ -1,10 +1,10 @@
+import 'package:flutter/services.dart';
 import 'package:money_manager/constFiles/colors.dart';
 import 'package:money_manager/constFiles/strings.dart';
 import 'package:money_manager/controller/reportController.dart';
 import 'package:money_manager/controller/transDetailController.dart';
 import 'package:money_manager/controller/transactionController.dart';
 import 'package:money_manager/customWidgets/snackbar.dart';
-import 'package:money_manager/model/transactionModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +21,18 @@ class _TransactionDetail extends State<TransactionDetail> {
   static TransactionController? transController;
   static ReportController? reportController;
 
+  String idUser = "";
+
+  @override
+  void initState() {
+    super.initState();
+    Session.getId().then((String value) {
+      setState(() {
+        idUser = value;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     transDetailController = Provider.of<TransDetailController>(context);
@@ -35,11 +47,11 @@ class _TransactionDetail extends State<TransactionDetail> {
           children: [
             Text(
               transDetailController!.isIncomeSelected ? income : expense,
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                  color: Colors.black, fontWeight: FontWeight.bold),
             ),
             IconButton(
-                icon: Icon(Icons.refresh_outlined),
+                icon: const Icon(Icons.refresh_outlined),
                 tooltip: "Change Category",
                 onPressed: () => transDetailController!.changeCategory())
           ],
@@ -163,6 +175,7 @@ class _TransactionDetail extends State<TransactionDetail> {
                     flex: 5,
                     child: TextField(
                       controller: transDetailController!.titleField,
+                      autocorrect: false,
                       cursorColor: greyText,
                       style: const TextStyle(
                           color: greyText,
@@ -188,6 +201,9 @@ class _TransactionDetail extends State<TransactionDetail> {
                     child: TextField(
                       controller: transDetailController!.amountField,
                       textAlign: TextAlign.end,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
                       keyboardType: const TextInputType.numberWithOptions(
                           decimal: true, signed: false),
                       cursorColor: greyText,
@@ -263,12 +279,6 @@ class _TransactionDetail extends State<TransactionDetail> {
   }
 
   save(BuildContext context) {
-    String idUser = "";
-    Session.getId().then((String value) {
-      setState(() {
-        idUser = value;
-      });
-    });
     if (transDetailController!.titleField.text.isEmpty) {
       snackBar(context: context, title: "Title Is Mandatory");
     } else if (double.tryParse(transDetailController!.amountField.text) ==
@@ -276,23 +286,24 @@ class _TransactionDetail extends State<TransactionDetail> {
         transDetailController!.amountField.text.contains("-")) {
       snackBar(context: context, title: "Enter Valid Amount");
     } else {
-      TransactionModel transactionModel = TransactionModel(
-        idUser: idUser,
-        id: "",
-        title: transDetailController!.titleField.text,
-        description: transDetailController!.descriptionField.text,
-        amount: transDetailController!.amountField.text,
-        isIncome: transDetailController!.isIncomeSelected ? 1 : 0,
-        category: transDetailController!.selectedDepartment,
-        dateTime: transDetailController!.savedTransaction
-            ? transDetailController!.date
-            : DateTime.now().toString(),
-      );
-
       if (transDetailController!.savedTransaction) {
-        transController!.updateTransaction(transactionModel);
+        transController!.updateTransaction(
+            transDetailController!.titleField.text,
+            transDetailController!.descriptionField.text,
+            transDetailController!.amountField.text,
+            transDetailController!.selectedDepartment,
+            transDetailController!.date,
+            transDetailController!.isIncomeSelected ? true : false,
+            transDetailController!.transactionId);
       } else {
-        transController!.insertTransaction(transactionModel);
+        transController!.insertTransaction(
+            transDetailController!.titleField.text,
+            idUser,
+            transDetailController!.descriptionField.text,
+            transDetailController!.amountField.text,
+            transDetailController!.selectedDepartment,
+            DateTime.now().toString(),
+            transDetailController!.isIncomeSelected ? true : false);
       }
       transController!.fetchTransaction();
       reportController!.fetchTransaction();
