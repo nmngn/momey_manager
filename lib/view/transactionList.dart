@@ -26,12 +26,12 @@ class TransactionList extends StatelessWidget {
         centerTitle: true,
         backgroundColor: whiteColor,
         elevation: 0.0,
-        iconTheme: IconThemeData(color: blackColor),
+        iconTheme: const IconThemeData(color: blackColor),
       ),
-      body: transactionController.transactionList.length == 0
-          ? Center(child: Text("No Records"))
+      body: transactionController.transactionList.isEmpty
+          ? const Center(child: Text("No Records"))
           : ListView.separated(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               itemCount: transactionController.transactionList.length,
               itemBuilder: (BuildContext context, int index) {
                 TransactionModel? data =
@@ -64,7 +64,7 @@ class TransactionList extends StatelessWidget {
                   leading: Container(
                     height: 50.0,
                     width: 50.0,
-                    padding: EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.all(10.0),
                     decoration: const BoxDecoration(
                         color: whiteColor,
                         boxShadow: [BoxShadow(color: Colors.transparent)],
@@ -96,7 +96,7 @@ class TransactionList extends StatelessWidget {
                   ),
                 );
               },
-              separatorBuilder: (BuildContext context, int index) => Divider(),
+              separatorBuilder: (BuildContext context, int index) => const Divider(),
             ),
     );
   }

@@ -68,7 +68,7 @@ class _RegisterClass extends State<RegisterScreen> {
               ),
             ),
           ),
-          Container(
+          SizedBox(
             height: 200,
             child: CupertinoDatePicker(
               mode: CupertinoDatePickerMode.date,

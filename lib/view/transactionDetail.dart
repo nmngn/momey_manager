@@ -48,8 +48,8 @@ class _TransactionDetail extends State<TransactionDetail> {
           Row(
             children: [
               Container(
-                margin: EdgeInsets.all(10.0),
-                padding: EdgeInsets.symmetric(horizontal: 8.0),
+                margin: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 decoration: const BoxDecoration(
                     color: primaryColor,
                     borderRadius: BorderRadius.all(Radius.circular(15.0))),
@@ -59,19 +59,19 @@ class _TransactionDetail extends State<TransactionDetail> {
                         transDetailController!.savedTransaction
                             ? "Update"
                             : "Save",
-                        style: TextStyle(color: whiteColor))),
+                        style: const TextStyle(color: whiteColor))),
               ),
             ],
           )
         ],
-        iconTheme: IconThemeData(color: blackColor),
+        iconTheme: const IconThemeData(color: blackColor),
       ),
       body: Column(
         children: [
           GridView(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3, childAspectRatio: 1.4),
             children: [
               categoryIcons(
@@ -156,7 +156,7 @@ class _TransactionDetail extends State<TransactionDetail> {
           ),
           Container(
             color: primaryColor,
-            padding: EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(10.0),
             child: Row(
               children: [
                 Expanded(
@@ -164,13 +164,13 @@ class _TransactionDetail extends State<TransactionDetail> {
                     child: TextField(
                       controller: transDetailController!.titleField,
                       cursorColor: greyText,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: greyText,
                           fontSize: 18,
                           fontWeight: FontWeight.bold),
                       decoration: InputDecoration(
                           hintText: "Title",
-                          hintStyle: TextStyle(color: greyText),
+                          hintStyle: const TextStyle(color: greyText),
                           prefixIcon: Padding(
                             padding:
                                 const EdgeInsets.only(right: 15.0, left: 5.0),
@@ -182,20 +182,20 @@ class _TransactionDetail extends State<TransactionDetail> {
                           ),
                           border: InputBorder.none),
                     )),
-                Spacer(),
+                const Spacer(),
                 Expanded(
                     flex: 2,
                     child: TextField(
                       controller: transDetailController!.amountField,
                       textAlign: TextAlign.end,
-                      keyboardType: TextInputType.numberWithOptions(
+                      keyboardType: const TextInputType.numberWithOptions(
                           decimal: true, signed: false),
                       cursorColor: greyText,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: greyText,
                           fontSize: 20,
                           fontWeight: FontWeight.bold),
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                           hintText: "Amount",
                           hintStyle: TextStyle(color: greyText),
                           border: InputBorder.none),
@@ -211,7 +211,7 @@ class _TransactionDetail extends State<TransactionDetail> {
                 textAlign: TextAlign.start,
                 minLines: 20,
                 maxLines: 50,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     hintText: "Description here...", border: InputBorder.none),
               ),
             ),
@@ -239,8 +239,8 @@ class _TransactionDetail extends State<TransactionDetail> {
         child: Container(
           padding: const EdgeInsets.all(8.0),
           decoration: BoxDecoration(
-              color: isSelected ? Color(0xffeae1f9) : Colors.transparent,
-              borderRadius: BorderRadius.all(Radius.circular(15.0))),
+              color: isSelected ? const Color(0xffeae1f9) : Colors.transparent,
+              borderRadius: const BorderRadius.all(Radius.circular(15.0))),
           child: Column(
             children: [
               Expanded(
