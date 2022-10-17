@@ -98,9 +98,6 @@ class _RegisterClass extends State<RegisterScreen> {
                 }
                 var data = repo.createUser(nameController.text, dateTime);
                 Session.setData(nameController.text);
-                Session.setId(data.then((value) {
-                  return value.idUser;
-                }).toString());
                 Navigator.push(
                     context,
                     MaterialPageRoute(

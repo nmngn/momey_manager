@@ -14,10 +14,10 @@ class Endpoints {
   static const String createUser = baseUrl + "/user";
 
   // transaction
-  static const String transactionUrl = baseUrl + "/transaction";
+  static const String transactionUrl = baseUrl + "/transaction/";
 
   static const String createTransaction = transactionUrl;
-  static const String getAllTransaction = transactionUrl + "/all";
+  static const String getAllTransaction = transactionUrl + "all";
   static const String getOneTransaction = transactionUrl;
   static const String updateTransaction = transactionUrl;
   static const String deleteTransaction = transactionUrl;

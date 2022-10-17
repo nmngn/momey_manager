@@ -21,15 +21,15 @@ class RecentTransList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: transController.transactionList.length == 0
-          ? Center(child: Text("No Records"))
+      child: transController.newList.isEmpty
+          ? const Center(child: Text("No Records"))
           : ListView.builder(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               itemCount: 7,
               itemBuilder: (BuildContext context, int index) {
-                if (transController.transactionList.length > index) {
+                if (transController.newList.length > index) {
                   TransactionModel? data =
-                      transController.transactionList[index];
+                      transController.newList[index];
 
                   String amountSign = data!.isIncome == true ? "+" : "-";
                   Color amountColor =
@@ -55,12 +55,12 @@ class RecentTransList extends StatelessWidget {
                       );
                     },
                     title: Text(data.title ?? ""),
-                    contentPadding: EdgeInsets.all(10.0),
+                    contentPadding: const EdgeInsets.all(10.0),
                     leading: Container(
                       height: 50.0,
                       width: 50.0,
-                      padding: EdgeInsets.all(10.0),
-                      decoration: BoxDecoration(
+                      padding: const EdgeInsets.all(10.0),
+                      decoration: const BoxDecoration(
                           color: whiteColor,
                           boxShadow: [BoxShadow(color: Colors.transparent)],
                           borderRadius:
@@ -79,7 +79,7 @@ class RecentTransList extends StatelessWidget {
                     ),
                   );
                 } else {
-                  return SizedBox();
+                  return const SizedBox();
                 }
               },
             ),

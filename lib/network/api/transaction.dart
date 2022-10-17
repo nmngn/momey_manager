@@ -56,20 +56,17 @@ class TransactionApi {
     }
   }
 
-  Future<TransactionModel> deleteTransaction(String id) async {
-    var data = {"id": id};
+  Future<void> deleteTransaction(String id) async {
 
     try {
-      final res = await _dioClient.get(Endpoints.deleteTransaction,
-          queryParameters: data);
-      var map = Map<String, dynamic>.from(res);
-      var response = TransactionModel.fromMap(map);
-      return response;
+      final res = await _dioClient.delete(Endpoints.deleteTransaction + id);
+      print(res);
     } catch (e) {
       print(e.toString());
       rethrow;
     }
   }
+
 
   Future<List<TransactionModel>> getAllTransaction() async {
     try {
@@ -117,7 +114,7 @@ class TransactionApi {
     };
 
     try {
-      final res = await _dioClient.put(Endpoints.getAllTransaction,
+      final res = await _dioClient.put(Endpoints.updateTransaction,
           queryParameters: param, data: data);
       var map = Map<String, dynamic>.from(res);
       var response = TransactionModel.fromMap(map);

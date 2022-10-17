@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:money_manager/constFiles/strings.dart';
+import 'package:money_manager/model/session.dart';
 import 'package:money_manager/model/transactionModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:money_manager/network/api/transaction.dart';
@@ -9,16 +10,21 @@ import '../network/service/service_locator.dart';
 
 class TransactionController with ChangeNotifier {
   List<TransactionModel?> transactionList = [];
+  var newList = [];
 
   double totalIncome = 0.0;
   double totalExpense = 0.0;
   double total = 0.0;
 
+  String idUser = "";
   bool fetching = false;
   late TransactionApi repo;
 
   TransactionController() {
     repo = TransactionApi(getIt<DioClient>());
+    Session.getId().then((String value) {
+      idUser = value;
+    });
     fetchTransaction();
   }
 
@@ -30,8 +36,11 @@ class TransactionController with ChangeNotifier {
     total = 0.0;
 
     transactionList = await repo.getAllTransaction();
+    newList = transactionList.where((element) {
+      return element?.idUser == idUser;
+    }).toList();
 
-    for (var element in transactionList) {
+    for (var element in newList) {
       if (element!.isIncome == true) {
         totalIncome += double.parse(element.amount ?? "0.0");
       } else {
@@ -46,7 +55,7 @@ class TransactionController with ChangeNotifier {
     notifyListeners();
   }
 
-  void insertTransaction(
+  Future<void> insertTransaction(
           String title,
           String idUser,
           String description,
@@ -54,27 +63,24 @@ class TransactionController with ChangeNotifier {
           String category,
           String dateTime,
           bool isIncome) async =>
-      await repo
-          .createTransaction(
-              title, idUser, description, amount, category, dateTime, isIncome)
-          .catchError((onError) => print("Insertion On Error: $onError"));
+      await repo.createTransaction(
+          title, idUser, description, amount, category, dateTime, isIncome);
 
-  void updateTransaction(
-          String title,
-          String description,
-          String amount,
-          String category,
-          String dateTime,
-          bool isIncome,
-          String id) async =>
-      await repo
-          .updateTransaction(id, title, description, amount, category,
-              dateTime, isIncome)
-          .catchError((onError) => print("Update On Error: $onError"));
+  Future<void> updateTransaction(
+      String title,
+      String description,
+      String amount,
+      String category,
+      String dateTime,
+      bool isIncome,
+      String id) async {
+    await repo.updateTransaction(
+        id, title, description, amount, category, dateTime, isIncome);
+  }
 
-  void deleteTransaction(String id) async => await repo
-      .deleteTransaction(id)
-      .catchError((onError) => print("Deletion On Error: $onError"));
+  Future<void> deleteTransaction(String id) async {
+    await repo.deleteTransaction(id);
+  }
 
   String tileIcon(String departmentName) {
     if (departmentName == health) return svgPath(healthSvg);

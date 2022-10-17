@@ -28,14 +28,14 @@ class TransactionList extends StatelessWidget {
         elevation: 0.0,
         iconTheme: const IconThemeData(color: blackColor),
       ),
-      body: transactionController.transactionList.isEmpty
+      body: transactionController.newList.isEmpty
           ? const Center(child: Text("No Records"))
           : ListView.separated(
               physics: const BouncingScrollPhysics(),
-              itemCount: transactionController.transactionList.length,
+              itemCount: transactionController.newList.length,
               itemBuilder: (BuildContext context, int index) {
                 TransactionModel? data =
-                    transactionController.transactionList[index];
+                    transactionController.newList[index];
 
                 String amountSign = data!.isIncome == true ? "+" : "-";
                 Color amountColor =

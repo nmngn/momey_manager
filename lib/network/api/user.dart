@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:money_manager/model/userModel.dart';
+import '../../model/session.dart';
 import '../dio_client.dart';
 import '../endpoint/endpoint.dart';
 
@@ -17,6 +18,7 @@ class UserApi {
       final res = await _dioClient.post(Endpoints.createUser, data: data);
       var map = Map<String, dynamic>.from(res);
       var response = UserModel.fromMap(map);
+      Session.setId(response.idUser!);
       return response;
     } catch (e) {
       print(e.toString());
