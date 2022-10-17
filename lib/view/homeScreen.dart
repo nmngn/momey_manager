@@ -40,7 +40,7 @@ class HomeScreen extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (BuildContext context) =>
-                                  const TransactionList())),
+                                  TransactionList())),
                       textStyle: const TextStyle(
                           color: selectedTextButton,
                           fontWeight: FontWeight.bold),

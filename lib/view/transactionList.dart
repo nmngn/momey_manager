@@ -10,9 +10,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
-class TransactionList extends StatelessWidget {
-  const TransactionList({Key? key}) : super(key: key);
+class TransactionList extends StatefulWidget {
+  @override
+  _TransactionList createState() => _TransactionList();
+}
 
+class _TransactionList extends State<TransactionList> {
   @override
   Widget build(BuildContext context) {
     TransactionController transactionController =
@@ -22,7 +25,8 @@ class TransactionList extends StatelessWidget {
     ReportController reportController = Provider.of<ReportController>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Money Manager", style: TextStyle(color: primaryColor)),
+        title:
+            const Text("Money Manager", style: TextStyle(color: primaryColor)),
         centerTitle: true,
         backgroundColor: whiteColor,
         elevation: 0.0,
@@ -34,8 +38,7 @@ class TransactionList extends StatelessWidget {
               physics: const BouncingScrollPhysics(),
               itemCount: transactionController.newList.length,
               itemBuilder: (BuildContext context, int index) {
-                TransactionModel? data =
-                    transactionController.newList[index];
+                TransactionModel? data = transactionController.newList[index];
 
                 String amountSign = data!.isIncome == true ? "+" : "-";
                 Color amountColor =
@@ -89,14 +92,17 @@ class TransactionList extends StatelessWidget {
                   trailing: IconButton(
                     onPressed: () {
                       transactionController.deleteTransaction(data.id ?? "");
-                      transactionController.fetchTransaction();
-                      reportController.fetchTransaction();
+                      setState(() {
+                        transactionController.fetchTransaction();
+                        reportController.fetchTransaction();
+                      });
                     },
                     icon: Icon(Icons.delete_outline, color: svgColor),
                   ),
                 );
               },
-              separatorBuilder: (BuildContext context, int index) => const Divider(),
+              separatorBuilder: (BuildContext context, int index) =>
+                  const Divider(),
             ),
     );
   }

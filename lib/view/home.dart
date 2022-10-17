@@ -12,7 +12,6 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     TransDetailController transDetailController =
         Provider.of<TransDetailController>(context);
 
@@ -70,7 +69,9 @@ class Home extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 20.0),
-          child: transDetailController.buttonSelected ? HomeScreen() : const ReportScreen(),
+          child: transDetailController.buttonSelected
+              ? HomeScreen()
+              : ReportScreen(),
         ),
       ),
     );

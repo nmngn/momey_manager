@@ -7,8 +7,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:provider/provider.dart';
 
-class ReportScreen extends StatelessWidget {
-  const ReportScreen({Key? key}) : super(key: key);
+class ReportScreen extends StatefulWidget {
+  @override 
+  _ReportScreen createState() => _ReportScreen();
+}
+
+class _ReportScreen extends State<ReportScreen> {
   static ReportController? reportController;
 
   @override
