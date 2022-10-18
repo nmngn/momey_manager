@@ -2,6 +2,7 @@ import 'package:money_manager/constFiles/colors.dart';
 import 'package:money_manager/constFiles/strings.dart';
 import 'package:money_manager/controller/reportController.dart';
 import 'package:flutter/material.dart';
+import 'package:money_manager/model/session.dart';
 import 'package:provider/provider.dart';
 
 import 'categorySelector.dart';
@@ -13,6 +14,11 @@ class CategorySelectHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String idUser = "";
+    Session.getId().then((String value) {
+      idUser = value;
+    });
+
     reportController = Provider.of<ReportController>(context);
     return Container(
       padding: EdgeInsets.all(5.0),
@@ -44,11 +50,12 @@ class CategorySelectHeader extends StatelessWidget {
               onPressed: () async {
                 DateTimeRange? picked = await showDateRangePicker(
                     context: context,
-                    firstDate: new DateTime(2015),
-                    lastDate: new DateTime(DateTime.now().year + 10));
-                if (picked != null)
-                  reportController!.fetchTransaction(
+                    firstDate: DateTime(2015),
+                    lastDate: DateTime(DateTime.now().year + 10));
+                if (picked != null) {
+                  reportController!.fetchTransaction(idUser,
                       customFromDate: picked.start, customToDate: picked.end);
+                }
               })
         ],
       ),

@@ -107,7 +107,6 @@ class TransactionApi {
       String category,
       String dateTime,
       bool isIncome) async {
-    var param = ({"id": id});
     var data = {
       "title": title,
       "description": description,
@@ -118,8 +117,8 @@ class TransactionApi {
     };
 
     try {
-      final res = await _dioClient.put(Endpoints.updateTransaction,
-          queryParameters: param, data: data);
+      final res =
+          await _dioClient.put(Endpoints.updateTransaction + id, data: data);
       var map = Map<String, dynamic>.from(res);
       var response = TransactionModel.fromMap(map);
       return response;

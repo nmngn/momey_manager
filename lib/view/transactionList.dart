@@ -124,7 +124,7 @@ class _TransactionList extends State<TransactionList> {
                           }
                         });
                         transactionController.fetchTransaction(idUser);
-                        reportController.fetchTransaction();
+                        reportController.fetchTransaction(idUser);
                       });
                     },
                     icon: Icon(Icons.delete_outline, color: svgColor),

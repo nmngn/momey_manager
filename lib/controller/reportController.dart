@@ -6,18 +6,21 @@ import 'package:money_manager/network/api/transaction.dart';
 import 'package:money_manager/network/dio_client.dart';
 import 'package:money_manager/network/service/service_locator.dart';
 
+import '../model/session.dart';
 
 class ReportController with ChangeNotifier {
   late TransactionApi repo;
 
   ReportController() {
     repo = TransactionApi(getIt<DioClient>());
-    fetchTransaction();
+    Session.getId().then((String value) {
+      fetchTransaction(value);
+    });
   }
 
   //default report method is income
   String reportMethod = income;
-  
+
   List<TransactionModel?> transactionList = [];
   List<TransactionModel?> transactionIncomeList = [];
   List<TransactionModel?> transactionExpenseList = [];
@@ -50,10 +53,10 @@ class ReportController with ChangeNotifier {
     notifyListeners();
   }
 
-  void fetchTransaction(
+  void fetchTransaction(String idUser,
       {DateTime? customFromDate, DateTime? customToDate}) async {
     DateTime fromDate = customFromDate ?? DateTime.now();
-    DateTime toDate = customFromDate ?? DateTime.now();
+    DateTime toDate = customToDate ?? DateTime.now();
 
     // transactionList = [];
 
@@ -75,9 +78,17 @@ class ReportController with ChangeNotifier {
     String toDateFormat = "y-$toMonthPattern-$toDayPattern";
 
     //get data from database
-    transactionList = await repo.getTransactionRangeDate(
-        DateFormat(fromDateFormat).format(fromDate),
-        DateFormat(toDateFormat).format(toDate));
+    if (customFromDate == null && customToDate == null) {
+      var listData = await repo.getAllTransaction();
+      transactionList =
+          listData.where((element) => element.idUser == idUser).toList();
+    } else {
+      var listData = await repo.getTransactionRangeDate(
+          DateFormat(fromDateFormat).format(fromDate),
+          DateFormat(toDateFormat).format(toDate));
+      transactionList =
+          listData.where((element) => element.idUser == idUser).toList();
+    }
 
     //converting to transactionModel
     // transactionList = dataList.map((e) => TransactionModel.fromMap(e)).toList();

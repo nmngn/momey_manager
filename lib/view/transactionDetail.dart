@@ -306,7 +306,7 @@ class _TransactionDetail extends State<TransactionDetail> {
             transDetailController!.isIncomeSelected ? true : false);
       }
       transController!.fetchTransaction(idUser);
-      reportController!.fetchTransaction();
+      reportController!.fetchTransaction(idUser);
       Navigator.pop(context);
     }
   }
