@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:ffi';
-import 'package:flutter/material.dart';
 import 'package:money_manager/model/transactionModel.dart';
 import '../dio_client.dart';
 import '../endpoint/endpoint.dart';
@@ -86,7 +85,7 @@ class TransactionApi {
 
   Future<List<TransactionModel>> getTransactionRangeDate(
       String sDay, String eDay) async {
-    var param = {"sDay": sDay, "eDay": eDay};
+    var param = {"sDay": sDay + " 00:00:00:000", "eDay": eDay + " 23:59:59:000"};
     try {
       final response = await _dioClient.get(Endpoints.getTransactionRangeDate,
           queryParameters: param);
